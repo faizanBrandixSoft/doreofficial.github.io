@@ -84,8 +84,7 @@
                     <br />
                     Hope you enjoy it!
                   </p>
-                  <a class="btn btn-secondary btn-xl mr-2 mb-2" href="/Dashboard.Default.html">VIEW NOW <i
-                      class="simple-icon-arrow-right"></i></a>
+                  <a class="btn btn-secondary btn-xl mr-2 mb-2" href="#" id="view-now-link">VIEW NOW <i class="simple-icon-arrow-right"></i></a>
 
                 </div>
               </div>
@@ -891,6 +890,14 @@
   <script src="js/vendor/landing-page/jquery.autoellipsis.js"></script>
   <script src="js/dore.scripts.landingpage.js"></script>
   <script src="js/scripts.js"></script>
+  <script>
+    $(document).ready(function() {
+        var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        var viewNowLink = document.getElementById('view-now-link');
+        
+        viewNowLink.href = baseUrl + '/Dashboard.Default.html';
+    });
+</script>
 </body>
 
 </html>
