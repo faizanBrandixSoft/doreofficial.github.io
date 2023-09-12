@@ -67,7 +67,9 @@ $.fn.addCommas = function (nStr) {
 (function ($) {
   $.fn.stateButton = function (options) {
     if (this.length > 1) {
-      this.each(function () { $(this).stateButton(options) });
+      this.each(function () {
+        $(this).stateButton(options);
+      });
       return this;
     }
 
@@ -110,7 +112,7 @@ $.fn.addCommas = function (nStr) {
       $(this).removeClass("show-success");
       $(this).removeClass("show-fail");
       $(this).removeClass("active");
-    }
+    };
 
     this.hideTooltips = function () {
       this.hideFailTooltip();
@@ -139,7 +141,7 @@ $.fn.addCommas = function (nStr) {
     };
 
     return this.initialize();
-  }
+  };
 })(jQuery);
 
 /* 02. Shift Select */
@@ -147,7 +149,7 @@ $.shiftSelectable = function (element, config) {
   var plugin = this;
   config = $.extend(
     {
-      items: ".card"
+      items: ".card",
     },
     config
   );
@@ -165,9 +167,7 @@ $.shiftSelectable = function (element, config) {
   }
 
   function itemClick(checkbox, shiftKey) {
-    $(checkbox)
-      .prop("checked", !$(checkbox).prop("checked"))
-      .trigger("change");
+    $(checkbox).prop("checked", !$(checkbox).prop("checked")).trigger("change");
 
     if (!lastChecked) {
       lastChecked = checkbox;
@@ -210,12 +210,7 @@ $.shiftSelectable = function (element, config) {
   }
 
   $container.on("click", config.items, function (e) {
-    if (
-      $(e.target).is("a") ||
-      $(e.target)
-        .parent()
-        .is("a")
-    ) {
+    if ($(e.target).is("a") || $(e.target).parent().is("a")) {
       return;
     }
 
@@ -230,20 +225,16 @@ $.shiftSelectable = function (element, config) {
   function controlActiveClasses() {
     $boxes.each(function () {
       if ($(this).prop("checked")) {
-        $(this)
-          .parents(".card")
-          .addClass("active");
+        $(this).parents(".card").addClass("active");
       } else {
-        $(this)
-          .parents(".card")
-          .removeClass("active");
+        $(this).parents(".card").removeClass("active");
       }
     });
   }
 
   plugin.update = function () {
     $boxes = $container.find("input[type='checkbox']");
-  }
+  };
 
   plugin.selectAll = function () {
     if ($checkAll) {
@@ -436,11 +427,7 @@ $.dore = function (element, options) {
     }
 
     $(document).on("click", function (event) {
-      if (
-        !$(event.target)
-          .parents()
-          .hasClass("search")
-      ) {
+      if (!$(event.target).parents().hasClass("search")) {
         hideSearchArea();
       }
     });
@@ -450,7 +437,8 @@ $.dore = function (element, options) {
 
     /* 03.05. Menu */
     var menuClickCount = 0;
-    var allMenuClassNames = "menu-default menu-hidden sub-hidden main-hidden menu-sub-hidden main-show-temporary sub-show-temporary menu-mobile";
+    var allMenuClassNames =
+      "menu-default menu-hidden sub-hidden main-hidden menu-sub-hidden main-show-temporary sub-show-temporary menu-mobile";
     function setMenuClassNames(clickIndex, calledFromResize, link) {
       menuClickCount = clickIndex;
       var container = $("#app-container");
@@ -464,16 +452,20 @@ $.dore = function (element, options) {
       if (
         $(".sub-menu ul[data-link='" + link + "']").length == 0 &&
         (menuClickCount == 2 || calledFromResize)
-        ) {
-          if ($(window).outerWidth() >= menuHiddenBreakpoint) {
-            if (isClassIncludedApp("menu-default")) {
-              if (calledFromResize) {
+      ) {
+        if ($(window).outerWidth() >= menuHiddenBreakpoint) {
+          if (isClassIncludedApp("menu-default")) {
+            if (calledFromResize) {
               $("#app-container").removeClass(allMenuClassNames);
-              $("#app-container").addClass("menu-default menu-sub-hidden sub-hidden");
+              $("#app-container").addClass(
+                "menu-default menu-sub-hidden sub-hidden"
+              );
               menuClickCount = 0; // This one should be changed from 1 to 0
             } else {
               $("#app-container").removeClass(allMenuClassNames);
-              $("#app-container").addClass("menu-default main-hidden menu-sub-hidden sub-hidden");
+              $("#app-container").addClass(
+                "menu-default main-hidden menu-sub-hidden sub-hidden"
+              );
               menuClickCount = 0;
             }
             resizeCarousel();
@@ -495,7 +487,9 @@ $.dore = function (element, options) {
               menuClickCount = 0;
             } else {
               $("#app-container").removeClass(allMenuClassNames);
-              $("#app-container").addClass("menu-sub-hidden main-hidden sub-hidden");
+              $("#app-container").addClass(
+                "menu-sub-hidden main-hidden sub-hidden"
+              );
               menuClickCount = -1;
             }
             resizeCarousel();
@@ -513,7 +507,9 @@ $.dore = function (element, options) {
           if (isClassIncludedApp("menu-hidden")) {
             if (calledFromResize) {
               $("#app-container").removeClass(allMenuClassNames);
-              $("#app-container").addClass("menu-hidden main-hidden sub-hidden");
+              $("#app-container").addClass(
+                "menu-hidden main-hidden sub-hidden"
+              );
               menuClickCount = 0;
             } else {
               $("#app-container").removeClass(allMenuClassNames);
@@ -558,7 +554,10 @@ $.dore = function (element, options) {
           nextClasses = "menu-hidden main-show-temporary";
         }
       } else if (clickIndex % 4 == 2) {
-        if (isClassIncludedApp("menu-main-hidden") && isClassIncludedApp("menu-hidden")) {
+        if (
+          isClassIncludedApp("menu-main-hidden") &&
+          isClassIncludedApp("menu-hidden")
+        ) {
           nextClasses = "menu-main-hidden";
         } else if (
           isClassIncludedApp("menu-default") &&
@@ -575,8 +574,7 @@ $.dore = function (element, options) {
       } else if (clickIndex % 4 == 3) {
         if (isClassIncludedApp("menu-main-hidden")) {
           nextClasses = "menu-main-hidden menu-hidden";
-        }
-        else if (
+        } else if (
           isClassIncludedApp("menu-default") &&
           isClassIncludedApp("menu-sub-hidden")
         ) {
@@ -614,9 +612,7 @@ $.dore = function (element, options) {
     $(".main-menu").on("click", "a", function (event) {
       event.preventDefault();
       // event.stopPropagation();
-      var link = $(this)
-        .attr("href")
-        .replace("#", "");
+      var link = $(this).attr("href").replace("#", "");
       if ($(".sub-menu ul[data-link='" + link + "']").length == 0) {
         var target = $(this).attr("target");
         if ($(this).attr("target") == null) {
@@ -656,22 +652,23 @@ $.dore = function (element, options) {
     $(document).on("click", function (event) {
       if (
         !(
-          $(event.target)
-            .parents()
-            .hasClass("menu-button") ||
+          $(event.target).parents().hasClass("menu-button") ||
           $(event.target).hasClass("menu-button") ||
           $(event.target)
             .parents()
-          //   .hasClass("menu-button-mobile") ||
-          // $(event.target).hasClass("menu-button-mobile") ||
-          // $(event.target)
-          //   .parents()
+            //   .hasClass("menu-button-mobile") ||
+            // $(event.target).hasClass("menu-button-mobile") ||
+            // $(event.target)
+            //   .parents()
             .hasClass("sidebar") ||
           $(event.target).hasClass("sidebar")
         )
       ) {
-        // Prevent sub menu closing on collapse click 
-        if ($(event.target).parents("a[data-toggle='collapse']").length > 0 || $(event.target).attr("data-toggle") == 'collapse') {
+        // Prevent sub menu closing on collapse click
+        if (
+          $(event.target).parents("a[data-toggle='collapse']").length > 0 ||
+          $(event.target).attr("data-toggle") == "collapse"
+        ) {
           return;
         }
         if (
@@ -684,7 +681,10 @@ $.dore = function (element, options) {
           } else {
             setMenuClassNames(0);
           }
-        } else if ($("#app-container").hasClass("menu-main-hidden") && $("#app-container").hasClass("menu-mobile")) {
+        } else if (
+          $("#app-container").hasClass("menu-main-hidden") &&
+          $("#app-container").hasClass("menu-mobile")
+        ) {
           setMenuClassNames(0);
         } else if (
           $("#app-container").hasClass("menu-hidden") ||
@@ -779,12 +779,8 @@ $.dore = function (element, options) {
     $(document).on("click", function (event) {
       if (
         !(
-          $(event.target)
-            .parents()
-            .hasClass("app-menu") ||
-          $(event.target)
-            .parents()
-            .hasClass("app-menu-button") ||
+          $(event.target).parents().hasClass("app-menu") ||
+          $(event.target).parents().hasClass("app-menu-button") ||
           $(event.target).hasClass("app-menu-button") ||
           $(event.target).hasClass("app-menu")
         )
@@ -838,7 +834,7 @@ $.dore = function (element, options) {
           ctx.stroke();
           Chart.controllers.line.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.BarWithShadow = Chart.defaults.bar;
@@ -854,7 +850,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.bar.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.LineWithLine = Chart.defaults.line;
@@ -876,7 +872,7 @@ $.dore = function (element, options) {
             ctx.stroke();
             ctx.restore();
           }
-        }
+        },
       });
 
       Chart.defaults.DoughnutWithShadow = Chart.defaults.doughnut;
@@ -892,7 +888,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.doughnut.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.PieWithShadow = Chart.defaults.pie;
@@ -908,7 +904,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.pie.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.ScatterWithShadow = Chart.defaults.scatter;
@@ -924,7 +920,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.scatter.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.RadarWithShadow = Chart.defaults.radar;
@@ -940,7 +936,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.radar.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       Chart.defaults.PolarWithShadow = Chart.defaults.polarArea;
@@ -956,7 +952,7 @@ $.dore = function (element, options) {
           ctx.responsive = true;
           Chart.controllers.polarArea.prototype.draw.apply(this, arguments);
           ctx.restore();
-        }
+        },
       });
 
       var chartTooltip = {
@@ -969,7 +965,7 @@ $.dore = function (element, options) {
         xPadding: 15,
         yPadding: 15,
         cornerRadius: 0.15,
-        displayColors: false
+        displayColors: false,
       };
 
       if (document.getElementById("visitChartFull")) {
@@ -997,10 +993,10 @@ $.dore = function (element, options) {
                 data: [180, 140, 150, 120, 180, 110, 160],
                 datalabels: {
                   align: "end",
-                  anchor: "end"
-                }
-              }
-            ]
+                  anchor: "end",
+                },
+              },
+            ],
           },
           options: {
             layout: {
@@ -1008,8 +1004,8 @@ $.dore = function (element, options) {
                 left: 0,
                 right: 0,
                 top: 40,
-                bottom: 0
-              }
+                bottom: 0,
+              },
             },
             plugins: {
               datalabels: {
@@ -1025,36 +1021,36 @@ $.dore = function (element, options) {
                 },
                 font: {
                   weight: "bold",
-                  size: 10
+                  size: 10,
                 },
-                formatter: Math.round
-              }
+                formatter: Math.round,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             legend: {
-              display: false
+              display: false,
             },
             tooltips: chartTooltip,
             scales: {
               yAxes: [
                 {
                   ticks: {
-                    min: 0
+                    min: 0,
                   },
-                  display: false
-                }
+                  display: false,
+                },
               ],
               xAxes: [
                 {
                   ticks: {
-                    min: 0
+                    min: 0,
                   },
-                  display: false
-                }
-              ]
-            }
-          }
+                  display: false,
+                },
+              ],
+            },
+          },
         });
       }
 
@@ -1065,8 +1061,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1077,29 +1073,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 0
-                  }
-                }
+                    padding: 0,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -1117,10 +1113,10 @@ $.dore = function (element, options) {
                 pointHoverRadius: 5,
                 fill: true,
                 borderWidth: 2,
-                backgroundColor: themeColor1_10
-              }
-            ]
-          }
+                backgroundColor: themeColor1_10,
+              },
+            ],
+          },
         });
       }
 
@@ -1133,8 +1129,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1145,29 +1141,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 0
-                  }
-                }
+                    padding: 0,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -1185,10 +1181,10 @@ $.dore = function (element, options) {
                 pointHoverRadius: 5,
                 fill: true,
                 borderWidth: 2,
-                backgroundColor: themeColor2_10
-              }
-            ]
-          }
+                backgroundColor: themeColor2_10,
+              },
+            ],
+          },
         });
       }
 
@@ -1198,18 +1194,18 @@ $.dore = function (element, options) {
             left: 5,
             right: 5,
             top: 10,
-            bottom: 10
-          }
+            bottom: 10,
+          },
         },
         plugins: {
           datalabels: {
-            display: false
-          }
+            display: false,
+          },
         },
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          display: false
+          display: false,
         },
         tooltips: {
           intersect: false,
@@ -1223,23 +1219,23 @@ $.dore = function (element, options) {
               $textContainer.find(".value").html("$" + $.fn.addCommas(yLabel));
               $textContainer.find(".label").html(label + "-" + xLabel);
             }
-          }
+          },
         },
         scales: {
           yAxes: [
             {
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
               },
-              display: false
-            }
+              display: false,
+            },
           ],
           xAxes: [
             {
-              display: false
-            }
-          ]
-        }
+              display: false,
+            },
+          ],
+        },
       };
 
       var smallChartInit = {
@@ -1250,7 +1246,7 @@ $.dore = function (element, options) {
           var label = chart.data.datasets[0].label;
           $textContainer.find(".value").html("$" + $.fn.addCommas(yLabel));
           $textContainer.find(".label").html(label + "-" + xLabel);
-        }
+        },
       };
 
       if (document.getElementById("smallChart1")) {
@@ -1277,12 +1273,12 @@ $.dore = function (element, options) {
                 data: [1250, 1300, 1550, 921, 1810, 1106, 1610],
                 datalabels: {
                   align: "end",
-                  anchor: "end"
-                }
-              }
-            ]
+                  anchor: "end",
+                },
+              },
+            ],
           },
-          options: smallChartOptions
+          options: smallChartOptions,
         });
       }
 
@@ -1310,12 +1306,12 @@ $.dore = function (element, options) {
                 data: [115, 120, 300, 222, 105, 85, 36],
                 datalabels: {
                   align: "end",
-                  anchor: "end"
-                }
-              }
-            ]
+                  anchor: "end",
+                },
+              },
+            ],
           },
-          options: smallChartOptions
+          options: smallChartOptions,
         });
       }
 
@@ -1343,12 +1339,12 @@ $.dore = function (element, options) {
                 data: [350, 452, 762, 952, 630, 85, 158],
                 datalabels: {
                   align: "end",
-                  anchor: "end"
-                }
-              }
-            ]
+                  anchor: "end",
+                },
+              },
+            ],
           },
-          options: smallChartOptions
+          options: smallChartOptions,
         });
       }
 
@@ -1376,12 +1372,12 @@ $.dore = function (element, options) {
                 data: [200, 452, 250, 630, 125, 85, 20],
                 datalabels: {
                   align: "end",
-                  anchor: "end"
-                }
-              }
-            ]
+                  anchor: "end",
+                },
+              },
+            ],
           },
-          options: smallChartOptions
+          options: smallChartOptions,
         });
       }
 
@@ -1392,8 +1388,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1404,29 +1400,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -1442,10 +1438,10 @@ $.dore = function (element, options) {
                 pointRadius: 6,
                 pointBorderWidth: 2,
                 pointHoverRadius: 8,
-                fill: false
-              }
-            ]
-          }
+                fill: false,
+              },
+            ],
+          },
         });
       }
 
@@ -1456,8 +1452,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1468,29 +1464,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 0
-                  }
-                }
+                    padding: 0,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -1508,10 +1504,10 @@ $.dore = function (element, options) {
                 pointHoverRadius: 5,
                 fill: true,
                 borderWidth: 2,
-                backgroundColor: themeColor1_10
-              }
-            ]
-          }
+                backgroundColor: themeColor1_10,
+              },
+            ],
+          },
         });
       }
 
@@ -1524,8 +1520,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1536,29 +1532,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 0
-                  }
-                }
+                    padding: 0,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -1576,10 +1572,10 @@ $.dore = function (element, options) {
                 pointHoverRadius: 5,
                 fill: true,
                 borderWidth: 2,
-                backgroundColor: themeColor1_10
-              }
-            ]
-          }
+                backgroundColor: themeColor1_10,
+              },
+            ],
+          },
         });
       }
 
@@ -1592,8 +1588,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1604,36 +1600,36 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 20,
                     min: -80,
                     max: 80,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
                     display: true,
                     lineWidth: 1,
-                    color: "rgba(0,0,0,0.1)"
-                  }
-                }
-              ]
+                    color: "rgba(0,0,0,0.1)",
+                  },
+                },
+              ],
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1649,8 +1645,8 @@ $.dore = function (element, options) {
                   { x: -26, y: -43 },
                   { x: -15, y: -30 },
                   { x: 65, y: -68 },
-                  { x: -28, y: -61 }
-                ]
+                  { x: -28, y: -61 },
+                ],
               },
               {
                 borderWidth: 2,
@@ -1664,11 +1660,11 @@ $.dore = function (element, options) {
                   { x: -51, y: 41 },
                   { x: -9, y: 9 },
                   { x: 72, y: -37 },
-                  { x: 62, y: -26 }
-                ]
-              }
-            ]
-          }
+                  { x: 62, y: -26 },
+                ],
+              },
+            ],
+          },
         });
       }
 
@@ -1681,8 +1677,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1693,36 +1689,36 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 20,
                     min: -80,
                     max: 80,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
                     display: true,
                     lineWidth: 1,
-                    color: "rgba(0,0,0,0.1)"
-                  }
-                }
-              ]
+                    color: "rgba(0,0,0,0.1)",
+                  },
+                },
+              ],
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1738,8 +1734,8 @@ $.dore = function (element, options) {
                   { x: -26, y: -43 },
                   { x: -15, y: -30 },
                   { x: 65, y: -68 },
-                  { x: -28, y: -61 }
-                ]
+                  { x: -28, y: -61 },
+                ],
               },
               {
                 borderWidth: 2,
@@ -1753,11 +1749,11 @@ $.dore = function (element, options) {
                   { x: -51, y: 41 },
                   { x: -9, y: 9 },
                   { x: 72, y: -37 },
-                  { x: 62, y: -26 }
-                ]
-              }
-            ]
-          }
+                  { x: 62, y: -26 },
+                ],
+              },
+            ],
+          },
         });
       }
 
@@ -1770,25 +1766,25 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             scale: {
               ticks: {
-                display: false
-              }
+                display: false,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1798,7 +1794,7 @@ $.dore = function (element, options) {
                 pointBackgroundColor: themeColor1,
                 borderColor: themeColor1,
                 backgroundColor: themeColor1_10,
-                data: [80, 90, 70]
+                data: [80, 90, 70],
               },
               {
                 label: "Order",
@@ -1806,11 +1802,11 @@ $.dore = function (element, options) {
                 pointBackgroundColor: themeColor2,
                 borderColor: themeColor2,
                 backgroundColor: themeColor2_10,
-                data: [68, 80, 95]
-              }
+                data: [68, 80, 95],
+              },
             ],
-            labels: ["Cakes", "Desserts", "Cupcakes"]
-          }
+            labels: ["Cakes", "Desserts", "Cupcakes"],
+          },
         });
       }
 
@@ -1821,25 +1817,25 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             scale: {
               ticks: {
-                display: false
-              }
+                display: false,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1849,7 +1845,7 @@ $.dore = function (element, options) {
                 pointBackgroundColor: themeColor1,
                 borderColor: themeColor1,
                 backgroundColor: themeColor1_10,
-                data: [80, 90, 70]
+                data: [80, 90, 70],
               },
               {
                 label: "Order",
@@ -1857,11 +1853,11 @@ $.dore = function (element, options) {
                 pointBackgroundColor: themeColor2,
                 borderColor: themeColor2,
                 backgroundColor: themeColor2_10,
-                data: [68, 80, 95]
-              }
+                data: [68, 80, 95],
+              },
             ],
-            labels: ["Cakes", "Desserts", "Cupcakes"]
-          }
+            labels: ["Cakes", "Desserts", "Cupcakes"],
+          },
         });
       }
 
@@ -1872,25 +1868,25 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             scale: {
               ticks: {
-                display: false
-              }
+                display: false,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1902,13 +1898,13 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
-                data: [80, 90, 50]
-              }
+                data: [80, 90, 50],
+              },
             ],
-            labels: ["Cakes", "Desserts", "Cupcakes"]
-          }
+            labels: ["Cakes", "Desserts", "Cupcakes"],
+          },
         });
       }
 
@@ -1921,25 +1917,25 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             scale: {
               ticks: {
-                display: false
-              }
+                display: false,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             datasets: [
@@ -1951,13 +1947,13 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
-                data: [80, 90, 70]
-              }
+                data: [80, 90, 70],
+              },
             ],
-            labels: ["Cakes", "Desserts", "Cupcakes"]
-          }
+            labels: ["Cakes", "Desserts", "Cupcakes"],
+          },
         });
       }
 
@@ -1970,8 +1966,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -1982,29 +1978,29 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 5,
                     min: 50,
                     max: 70,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
-              display: false
+              display: false,
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -2020,10 +2016,10 @@ $.dore = function (element, options) {
                 pointRadius: 6,
                 pointBorderWidth: 2,
                 pointHoverRadius: 8,
-                fill: false
-              }
-            ]
-          }
+                fill: false,
+              },
+            ],
+          },
         });
       }
 
@@ -2036,8 +2032,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -2048,34 +2044,34 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 100,
                     min: 300,
                     max: 800,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["January", "February", "March", "April", "May", "June"],
@@ -2085,17 +2081,17 @@ $.dore = function (element, options) {
                 borderColor: themeColor1,
                 backgroundColor: themeColor1_10,
                 data: [456, 479, 324, 569, 702, 600],
-                borderWidth: 2
+                borderWidth: 2,
               },
               {
                 label: "Desserts",
                 borderColor: themeColor2,
                 backgroundColor: themeColor2_10,
                 data: [364, 504, 605, 400, 345, 320],
-                borderWidth: 2
-              }
-            ]
-          }
+                borderWidth: 2,
+              },
+            ],
+          },
         });
       }
 
@@ -2108,8 +2104,8 @@ $.dore = function (element, options) {
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -2120,34 +2116,34 @@ $.dore = function (element, options) {
                     display: true,
                     lineWidth: 1,
                     color: "rgba(0,0,0,0.1)",
-                    drawBorder: false
+                    drawBorder: false,
                   },
                   ticks: {
                     beginAtZero: true,
                     stepSize: 100,
                     min: 300,
                     max: 800,
-                    padding: 20
-                  }
-                }
+                    padding: 20,
+                  },
+                },
               ],
               xAxes: [
                 {
                   gridLines: {
-                    display: false
-                  }
-                }
-              ]
+                    display: false,
+                  },
+                },
+              ],
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
+            tooltips: chartTooltip,
           },
           data: {
             labels: ["January", "February", "March", "April", "May", "June"],
@@ -2157,17 +2153,17 @@ $.dore = function (element, options) {
                 borderColor: themeColor1,
                 backgroundColor: themeColor1_10,
                 data: [456, 479, 324, 569, 702, 600],
-                borderWidth: 2
+                borderWidth: 2,
               },
               {
                 label: "Desserts",
                 borderColor: themeColor2,
                 backgroundColor: themeColor2_10,
                 data: [364, 504, 605, 400, 345, 320],
-                borderWidth: 2
-              }
-            ]
-          }
+                borderWidth: 2,
+              },
+            ],
+          },
         });
       }
 
@@ -2176,8 +2172,8 @@ $.dore = function (element, options) {
         options: {
           plugins: {
             datalabels: {
-              display: false
-            }
+              display: false,
+            },
           },
           responsive: true,
           maintainAspectRatio: false,
@@ -2188,29 +2184,29 @@ $.dore = function (element, options) {
                   display: true,
                   lineWidth: 1,
                   color: "rgba(0,0,0,0.1)",
-                  drawBorder: false
+                  drawBorder: false,
                 },
                 ticks: {
                   beginAtZero: true,
                   stepSize: 5,
                   min: 50,
                   max: 70,
-                  padding: 20
-                }
-              }
+                  padding: 20,
+                },
+              },
             ],
             xAxes: [
               {
                 gridLines: {
-                  display: false
-                }
-              }
-            ]
+                  display: false,
+                },
+              },
+            ],
           },
           legend: {
-            display: false
+            display: false,
           },
-          tooltips: chartTooltip
+          tooltips: chartTooltip,
         },
         data: {
           labels: [
@@ -2225,7 +2221,7 @@ $.dore = function (element, options) {
             "Sep",
             "Oct",
             "Nov",
-            "Dec"
+            "Dec",
           ],
           datasets: [
             {
@@ -2240,10 +2236,10 @@ $.dore = function (element, options) {
               pointRadius: 4,
               pointBorderWidth: 2,
               pointHoverRadius: 5,
-              fill: false
-            }
-          ]
-        }
+              fill: false,
+            },
+          ],
+        },
       };
 
       if (document.getElementById("contributionChart1")) {
@@ -2268,7 +2264,7 @@ $.dore = function (element, options) {
       }
 
       var centerTextPlugin = {
-        afterDatasetsUpdate: function (chart) { },
+        afterDatasetsUpdate: function (chart) {},
         beforeDraw: function (chart) {
           var width = chart.chartArea.right;
           var height = chart.chartArea.bottom;
@@ -2331,7 +2327,7 @@ $.dore = function (element, options) {
             chart.pointDataIndex = firstPoint._datasetIndex;
             chart.pointAvailable = true;
           }
-        }
+        },
       };
 
       if (document.getElementById("categoryChart")) {
@@ -2348,41 +2344,41 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor3_10,
                   themeColor2_10,
-                  themeColor1_10
+                  themeColor1_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20]
-              }
-            ]
+                data: [15, 25, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2402,41 +2398,41 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor3_10,
                   themeColor2_10,
-                  themeColor1_10
+                  themeColor1_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20]
-              }
-            ]
+                data: [15, 25, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2453,40 +2449,40 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20]
-              }
-            ]
+                data: [15, 25, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2503,40 +2499,40 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20]
-              }
-            ]
+                data: [15, 25, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2554,41 +2550,41 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20]
-              }
-            ]
+                data: [15, 25, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2607,48 +2603,48 @@ $.dore = function (element, options) {
                   themeColor2,
                   themeColor3,
                   themeColor4,
-                  themeColor5
+                  themeColor5,
                 ],
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
                   themeColor3_10,
                   themeColor4_10,
-                  themeColor5_10
+                  themeColor5_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20, 30, 14]
-              }
-            ]
+                data: [15, 25, 20, 30, 14],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2666,41 +2662,41 @@ $.dore = function (element, options) {
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
-                  themeColor3_10
+                  themeColor3_10,
                 ],
                 borderWidth: 2,
-                data: [85, 45, 20]
-              }
-            ]
+                data: [85, 45, 20],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2714,7 +2710,7 @@ $.dore = function (element, options) {
               "Employed for wages",
               "Self-employed",
               "Looking for work",
-              "Retired"
+              "Retired",
             ],
             datasets: [
               {
@@ -2723,47 +2719,47 @@ $.dore = function (element, options) {
                   themeColor1,
                   themeColor2,
                   themeColor3,
-                  themeColor4
+                  themeColor4,
                 ],
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
                   themeColor3_10,
-                  themeColor4_10
+                  themeColor4_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20, 8]
-              }
-            ]
+                data: [15, 25, 20, 8],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
 
@@ -2782,48 +2778,48 @@ $.dore = function (element, options) {
                   themeColor2,
                   themeColor3,
                   themeColor4,
-                  themeColor5
+                  themeColor5,
                 ],
                 backgroundColor: [
                   themeColor1_10,
                   themeColor2_10,
                   themeColor3_10,
                   themeColor4_10,
-                  themeColor5_10
+                  themeColor5_10,
                 ],
                 borderWidth: 2,
-                data: [15, 25, 20, 8, 25]
-              }
-            ]
+                data: [15, 25, 20, 8, 25],
+              },
+            ],
           },
-          draw: function () { },
+          draw: function () {},
           options: {
             plugins: {
               datalabels: {
-                display: false
-              }
+                display: false,
+              },
             },
             responsive: true,
             maintainAspectRatio: false,
             cutoutPercentage: 80,
             title: {
-              display: false
+              display: false,
             },
             layout: {
               padding: {
-                bottom: 20
-              }
+                bottom: 20,
+              },
             },
             legend: {
               position: "bottom",
               labels: {
                 padding: 30,
                 usePointStyle: true,
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
-            tooltips: chartTooltip
-          }
+            tooltips: chartTooltip,
+          },
         });
       }
     }
@@ -2842,45 +2838,45 @@ $.dore = function (element, options) {
           month: "Month",
           week: "Week",
           day: "Day",
-          list: "List"
+          list: "List",
         },
         bootstrapFontAwesome: {
           prev: " simple-icon-arrow-left",
           next: " simple-icon-arrow-right",
           prevYear: " simple-icon-control-start",
-          nextYear: " simple-icon-control-end"
+          nextYear: " simple-icon-control-end",
         },
         events: [
           {
             title: "Account",
-            start: "2018-05-18"
+            start: "2018-05-18",
           },
           {
             title: "Delivery",
             start: "2019-07-22",
-            end: "2019-07-24"
+            end: "2019-07-24",
           },
           {
             title: "Conference",
             start: "2019-06-07",
-            end: "2019-06-09"
+            end: "2019-06-09",
           },
           {
             title: "Delivery",
             start: "2019-09-03",
-            end: "2019-09-06"
+            end: "2019-09-06",
           },
           {
             title: "Meeting",
             start: "2019-06-17",
-            end: "2019-06-18"
+            end: "2019-06-18",
           },
           {
             title: "Taxes",
             start: "2019-08-07",
-            end: "2019-08-09"
-          }
-        ]
+            end: "2019-08-09",
+          },
+        ],
       });
     }
 
@@ -2896,8 +2892,8 @@ $.dore = function (element, options) {
         language: {
           paginate: {
             previous: "<i class='simple-icon-arrow-left'></i>",
-            next: "<i class='simple-icon-arrow-right'></i>"
-          }
+            next: "<i class='simple-icon-arrow-right'></i>",
+          },
         },
         drawCallback: function () {
           $($(".dataTables_wrapper .pagination li:first-of-type"))
@@ -2908,7 +2904,7 @@ $.dore = function (element, options) {
             .addClass("next");
 
           $(".dataTables_wrapper .pagination").addClass("pagination-sm");
-        }
+        },
       });
 
       $(".data-tables-pagination").DataTable({
@@ -2921,8 +2917,8 @@ $.dore = function (element, options) {
         language: {
           paginate: {
             previous: "<i class='simple-icon-arrow-left'></i>",
-            next: "<i class='simple-icon-arrow-right'></i>"
-          }
+            next: "<i class='simple-icon-arrow-right'></i>",
+          },
         },
         drawCallback: function () {
           $($(".dataTables_wrapper .pagination li:first-of-type"))
@@ -2933,7 +2929,7 @@ $.dore = function (element, options) {
             .addClass("next");
 
           $(".dataTables_wrapper .pagination").addClass("pagination-sm");
-        }
+        },
       });
 
       var dataTablePs;
@@ -2948,25 +2944,29 @@ $.dore = function (element, options) {
         deferRender: !0,
         scrollY: "calc(100vh - 400px)",
         scrollCollapse: !0,
-        "fnInitComplete": function () {
-          dataTablePs = new PerfectScrollbar('.dataTables_scrollBody', { suppressScrollX: true });
+        fnInitComplete: function () {
+          dataTablePs = new PerfectScrollbar(".dataTables_scrollBody", {
+            suppressScrollX: true,
+          });
           dataTablePs.isRtl = false;
         },
-        "fnDrawCallback": function (oSettings) {
-          dataTablePs = new PerfectScrollbar('.dataTables_scrollBody', { suppressScrollX: true });
+        fnDrawCallback: function (oSettings) {
+          dataTablePs = new PerfectScrollbar(".dataTables_scrollBody", {
+            suppressScrollX: true,
+          });
           dataTablePs.isRtl = false;
-        }
+        },
       });
 
       $(".data-table-feature").DataTable({
         sDom: '<"row view-filter"<"col-sm-12"<"float-right"l><"float-left"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
-        "columns": [
-          { "data": "name" },
-          { "data": "position" },
-          { "data": "office" },
-          { "data": "age" },
-          { "data": "start_date" },
-          { "data": "salary" }
+        columns: [
+          { data: "name" },
+          { data: "position" },
+          { data: "office" },
+          { data: "age" },
+          { data: "start_date" },
+          { data: "salary" },
         ],
         drawCallback: function () {
           $($(".dataTables_wrapper .pagination li:first-of-type"))
@@ -2981,23 +2981,18 @@ $.dore = function (element, options) {
         language: {
           paginate: {
             previous: "<i class='simple-icon-arrow-left'></i>",
-            next: "<i class='simple-icon-arrow-right'></i>"
+            next: "<i class='simple-icon-arrow-right'></i>",
           },
           search: "_INPUT_",
           searchPlaceholder: "Search...",
-          lengthMenu: "Items Per Page _MENU_"
+          lengthMenu: "Items Per Page _MENU_",
         },
       });
 
       // Datatable with rows
       var $dataTableRows = $("#datatableRows").DataTable({
         bLengthChange: false,
-        buttons: [
-          'copy',
-          'excel',
-          'csv',
-          'pdf'
-        ],
+        buttons: ["copy", "excel", "csv", "pdf"],
         destroy: true,
         info: false,
         sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
@@ -3007,18 +3002,20 @@ $.dore = function (element, options) {
           { data: "Sales" },
           { data: "Stock" },
           { data: "Category" },
-          { data: "Check" }
+          { data: "Check" },
         ],
         language: {
           paginate: {
             previous: "<i class='simple-icon-arrow-left'></i>",
-            next: "<i class='simple-icon-arrow-right'></i>"
-          }
+            next: "<i class='simple-icon-arrow-right'></i>",
+          },
         },
         drawCallback: function () {
           unCheckAllRows();
           $("#checkAllDataTables").prop("checked", false);
-          $("#checkAllDataTables").prop("indeterminate", false).trigger("change");
+          $("#checkAllDataTables")
+            .prop("indeterminate", false)
+            .trigger("change");
 
           $($(".dataTables_wrapper .pagination li:first-of-type"))
             .find("a")
@@ -3028,32 +3025,40 @@ $.dore = function (element, options) {
             .addClass("next");
           $(".dataTables_wrapper .pagination").addClass("pagination-sm");
           var api = $(this).dataTable().api();
-          $("#pageCountDatatable span").html("Displaying " + parseInt(api.page.info().start + 1) + "-" + api.page.info().end + " of " + api.page.info().recordsTotal + " items");
-        }
+          $("#pageCountDatatable span").html(
+            "Displaying " +
+              parseInt(api.page.info().start + 1) +
+              "-" +
+              api.page.info().end +
+              " of " +
+              api.page.info().recordsTotal +
+              " items"
+          );
+        },
       });
 
-      $("#dataTablesCopy").on("click", function(event) {
+      $("#dataTablesCopy").on("click", function (event) {
         event.preventDefault();
         $dataTableRows.buttons(0).trigger();
       });
 
-      $("#dataTablesExcel").on("click", function(event) {
+      $("#dataTablesExcel").on("click", function (event) {
         event.preventDefault();
         $dataTableRows.buttons(1).trigger();
       });
-      
-      $("#dataTablesCsv").on("click", function(event) {
+
+      $("#dataTablesCsv").on("click", function (event) {
         event.preventDefault();
         $dataTableRows.buttons(2).trigger();
       });
-      
-      $("#dataTablesPdf").on("click", function(event) {
+
+      $("#dataTablesPdf").on("click", function (event) {
         event.preventDefault();
         $dataTableRows.buttons(3).trigger();
       });
 
-      $('#datatableRows tbody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
+      $("#datatableRows tbody").on("click", "tr", function () {
+        $(this).toggleClass("selected");
         var $checkBox = $(this).find(".custom-checkbox input");
         $checkBox.prop("checked", !$checkBox.prop("checked")).trigger("change");
         controlCheckAll();
@@ -3062,7 +3067,7 @@ $.dore = function (element, options) {
       function controlCheckAll() {
         var anyChecked = false;
         var allChecked = true;
-        $('#datatableRows tbody tr .custom-checkbox input').each(function () {
+        $("#datatableRows tbody tr .custom-checkbox input").each(function () {
           if ($(this).prop("checked")) {
             anyChecked = true;
           } else {
@@ -3082,13 +3087,17 @@ $.dore = function (element, options) {
       }
 
       function unCheckAllRows() {
-        $('#datatableRows tbody tr').removeClass('selected');
-        $('#datatableRows tbody tr .custom-checkbox input').prop("checked", false).trigger("change");
+        $("#datatableRows tbody tr").removeClass("selected");
+        $("#datatableRows tbody tr .custom-checkbox input")
+          .prop("checked", false)
+          .trigger("change");
       }
 
       function checkAllRows() {
-        $('#datatableRows tbody tr').addClass('selected');
-        $('#datatableRows tbody tr .custom-checkbox input').prop("checked", true).trigger("change");
+        $("#datatableRows tbody tr").addClass("selected");
+        $("#datatableRows tbody tr .custom-checkbox input")
+          .prop("checked", true)
+          .trigger("change");
       }
 
       $("#checkAllDataTables").on("click", function (event) {
@@ -3102,7 +3111,7 @@ $.dore = function (element, options) {
 
       function getSelectedRows() {
         //Getting Selected Ones
-        console.log($dataTableRows.rows('.selected').data());
+        console.log($dataTableRows.rows(".selected").data());
       }
 
       $("#searchDatatable").on("keyup", function (event) {
@@ -3117,40 +3126,39 @@ $.dore = function (element, options) {
       var $addToDatatableButton = $("#addToDatatable").stateButton();
 
       // Validation when modal shown
-      $('#rightModal').on('shown.bs.modal', function (e) {
-        $("#addToDatatableForm").validate(
-          {
-            rules: {
-              Sales: {
-                required: true,
-                number: true,
-                min: 3000
-              },
-              Stock: {
-                required: true,
-                number: true,
-              },
-              Category: {
-                required: true
-              },
-              Name: {
-                required: true
-              }
-            }
-          }
-        )
-      })
+      $("#rightModal").on("shown.bs.modal", function (e) {
+        $("#addToDatatableForm").validate({
+          rules: {
+            Sales: {
+              required: true,
+              number: true,
+              min: 3000,
+            },
+            Stock: {
+              required: true,
+              number: true,
+            },
+            Category: {
+              required: true,
+            },
+            Name: {
+              required: true,
+            },
+          },
+        });
+      });
 
       //Adding to datatable from right modal
       $("#addToDatatable").on("click", function (event) {
         if ($("#addToDatatableForm").valid()) {
           $addToDatatableButton.showSpinner();
-          var inputs = $("#addToDatatableForm").find(':input');
+          var inputs = $("#addToDatatableForm").find(":input");
           var data = {};
           inputs.each(function () {
             data[$(this).attr("name")] = $(this).val();
           });
-          data["Check"] = '<label class="custom-control custom-checkbox mb-1 align-self-center data-table-rows-check"><input type="checkbox" class="custom-control-input"><span class="custom-control-label">&nbsp;</span></label>';
+          data["Check"] =
+            '<label class="custom-control custom-checkbox mb-1 align-self-center data-table-rows-check"><input type="checkbox" class="custom-control-input"><span class="custom-control-label">&nbsp;</span></label>';
           $dataTableRows.row.add(data).draw();
           setTimeout(function () {
             $addToDatatableButton.showSuccess(true, "New row added!");
@@ -3160,8 +3168,11 @@ $.dore = function (element, options) {
               inputs.each(function () {
                 $(this).val("");
               });
-              if ($("#addToDatatableForm").find('select').data('select2')) {
-                $("#addToDatatableForm").find('select').val('').trigger('change');
+              if ($("#addToDatatableForm").find("select").data("select2")) {
+                $("#addToDatatableForm")
+                  .find("select")
+                  .val("")
+                  .trigger("change");
               }
               $("#addToDatatableForm").validate().resetForm();
             }, 1000);
@@ -3176,7 +3187,7 @@ $.dore = function (element, options) {
         {
           title: "Bootstrap Notify",
           message: "Here is a notification!",
-          target: "_blank"
+          target: "_blank",
         },
         {
           element: "body",
@@ -3187,7 +3198,7 @@ $.dore = function (element, options) {
           showProgressbar: false,
           placement: {
             from: placementFrom,
-            align: placementAlign
+            align: placementAlign,
           },
           offset: 20,
           spacing: 10,
@@ -3198,7 +3209,7 @@ $.dore = function (element, options) {
           mouse_over: null,
           animate: {
             enter: "animated fadeInDown",
-            exit: "animated fadeOutUp"
+            exit: "animated fadeOutUp",
           },
           onShow: null,
           onShown: null,
@@ -3215,7 +3226,7 @@ $.dore = function (element, options) {
             '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
             "</div>" +
             '<a href="{3}" target="{4}" data-notify="url"></a>' +
-            "</div>"
+            "</div>",
         }
       );
     }
@@ -3228,8 +3239,11 @@ $.dore = function (element, options) {
     /* 03.13. Dropdown Select */
     $(".dropdown-as-select .dropdown-menu a").click(function () {
       var selText = $(this).text();
-      $(this).parents(".dropdown-as-select").find('.dropdown-toggle').html(selText);
-      $(this).parents(".dropdown-as-select").find('a').removeClass("active");
+      $(this)
+        .parents(".dropdown-as-select")
+        .find(".dropdown-toggle")
+        .html(selText);
+      $(this).parents(".dropdown-as-select").find("a").removeClass("active");
       $(this).addClass("active");
     });
 
@@ -3261,17 +3275,17 @@ $.dore = function (element, options) {
               slidesToShow: 2,
               slidesToScroll: 2,
               infinite: true,
-              dots: true
-            }
+              dots: true,
+            },
           },
           {
             breakpoint: 600,
             settings: {
               slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
-        ]
+              slidesToScroll: 1,
+            },
+          },
+        ],
       });
 
       $(".slick.center").slick({
@@ -3302,26 +3316,26 @@ $.dore = function (element, options) {
               slidesToScroll: 3,
               infinite: true,
               dots: true,
-              centerMode: false
-            }
+              centerMode: false,
+            },
           },
           {
             breakpoint: 600,
             settings: {
               slidesToShow: 2,
               slidesToScroll: 2,
-              centerMode: false
-            }
+              centerMode: false,
+            },
           },
           {
             breakpoint: 480,
             settings: {
               slidesToShow: 1,
               slidesToScroll: 1,
-              centerMode: false
-            }
-          }
-        ]
+              centerMode: false,
+            },
+          },
+        ],
       });
 
       $(".slick.single").slick({
@@ -3340,7 +3354,7 @@ $.dore = function (element, options) {
           .find(".slider-nav .right-arrow"),
         customPaging: function (slider, i) {
           return '<button role="button" class="slick-dot"><span></span></button>';
-        }
+        },
       });
     }
 
@@ -3377,7 +3391,7 @@ $.dore = function (element, options) {
         dir: direction,
         placeholder: "",
         maximumSelectionSize: 6,
-        containerCssClass: ":all:"
+        containerCssClass: ":all:",
       });
     }
 
@@ -3388,8 +3402,8 @@ $.dore = function (element, options) {
         rtl: isRtl,
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
-          rightArrow: '<i class="simple-icon-arrow-right"></i>'
-        }
+          rightArrow: '<i class="simple-icon-arrow-right"></i>',
+        },
       });
 
       $(".input-daterange").datepicker({
@@ -3397,8 +3411,8 @@ $.dore = function (element, options) {
         rtl: isRtl,
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
-          rightArrow: '<i class="simple-icon-arrow-right"></i>'
-        }
+          rightArrow: '<i class="simple-icon-arrow-right"></i>',
+        },
       });
 
       $(".input-group.date").datepicker({
@@ -3406,8 +3420,8 @@ $.dore = function (element, options) {
         rtl: isRtl,
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
-          rightArrow: '<i class="simple-icon-arrow-right"></i>'
-        }
+          rightArrow: '<i class="simple-icon-arrow-right"></i>',
+        },
       });
 
       $(".date-inline").datepicker({
@@ -3415,8 +3429,8 @@ $.dore = function (element, options) {
         rtl: isRtl,
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
-          rightArrow: '<i class="simple-icon-arrow-right"></i>'
-        }
+          rightArrow: '<i class="simple-icon-arrow-right"></i>',
+        },
       });
     }
 
@@ -3430,11 +3444,10 @@ $.dore = function (element, options) {
           });
         },
         thumbnailWidth: 160,
-        previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span></div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>'
+        previewTemplate:
+          '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span></div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>',
       });
     }
-
-
 
     /* 03.21. Cropperjs */
     var Cropper = window.Cropper;
@@ -3490,7 +3503,7 @@ $.dore = function (element, options) {
             }
           });
         },
-        zoom: function (e) { }
+        zoom: function (e) {},
       };
 
       if ($("#inputImage").length > 0) {
@@ -3534,7 +3547,7 @@ $.dore = function (element, options) {
           direction: direction,
           range: {
             min: 200,
-            max: 2800
+            max: 2800,
           },
           step: 10,
           format: {
@@ -3543,8 +3556,8 @@ $.dore = function (element, options) {
             },
             from: function (value) {
               return value;
-            }
-          }
+            },
+          },
         });
       }
 
@@ -3556,7 +3569,7 @@ $.dore = function (element, options) {
           direction: direction,
           range: {
             min: 500,
-            max: 1500
+            max: 1500,
           },
           step: 10,
           format: {
@@ -3565,8 +3578,8 @@ $.dore = function (element, options) {
             },
             from: function (value) {
               return value;
-            }
-          }
+            },
+          },
         });
       }
 
@@ -3578,7 +3591,7 @@ $.dore = function (element, options) {
           direction: direction,
           range: {
             min: 0,
-            max: 150
+            max: 150,
           },
           step: 1,
           format: {
@@ -3587,8 +3600,8 @@ $.dore = function (element, options) {
             },
             from: function (value) {
               return value;
-            }
-          }
+            },
+          },
         });
       }
     }
@@ -3612,7 +3625,9 @@ $.dore = function (element, options) {
           var initialized = false;
 
           function createChatAppScroll() {
-            chatAppScroll = new PerfectScrollbar(scrollElement, { suppressScrollX: true });
+            chatAppScroll = new PerfectScrollbar(scrollElement, {
+              suppressScrollX: true,
+            });
             chatAppScroll.isRtl = false;
             initialized = false;
           }
@@ -3631,7 +3646,10 @@ $.dore = function (element, options) {
             if ($(".separator").length > 0) {
               elementsHeight += $(".separator").outerHeight(true);
             }
-            $(".chat-app .scroll").css("height", (window.innerHeight - elementsHeight) + "px");
+            $(".chat-app .scroll").css(
+              "height",
+              window.innerHeight - elementsHeight + "px"
+            );
 
             if (chatAppScroll) {
               $(".chat-app .scroll").scrollTop(
@@ -3644,11 +3662,17 @@ $.dore = function (element, options) {
                 chatAppScroll.destroy();
                 chatAppScroll = null;
               }
-              $(".chat-app .scroll-content > div:last-of-type").css("padding-bottom", ($(".chat-input-container").outerHeight(true)) + "px");
+              $(".chat-app .scroll-content > div:last-of-type").css(
+                "padding-bottom",
+                $(".chat-input-container").outerHeight(true) + "px"
+              );
 
               if (!initialized) {
                 setTimeout(function () {
-                  $("html, body").animate({ scrollTop: $(document).height() + 30 }, 100);
+                  $("html, body").animate(
+                    { scrollTop: $(document).height() + 30 },
+                    100
+                  );
                 }, 300);
                 initialized = true;
               }
@@ -3656,7 +3680,10 @@ $.dore = function (element, options) {
               if (!chatAppScroll) {
                 createChatAppScroll();
               }
-              $(".chat-app .scroll-content > div:last-of-type").css("padding-bottom", 0);
+              $(".chat-app .scroll-content > div:last-of-type").css(
+                "padding-bottom",
+                0
+              );
             }
           }
           $(window).on("resize", function (event) {
@@ -3691,7 +3718,7 @@ $.dore = function (element, options) {
           trailColor: trailColor,
           trailWidth: 4,
           text: {
-            autoStyleContainer: false
+            autoStyleContainer: false,
           },
           step: function (state, bar) {
             if (showPercent) {
@@ -3699,7 +3726,7 @@ $.dore = function (element, options) {
             } else {
               bar.setText(val + "/" + max);
             }
-          }
+          },
         }).animate(val / max);
       });
     }
@@ -3712,7 +3739,7 @@ $.dore = function (element, options) {
         $(this).barrating({
           theme: "bootstrap-stars",
           initialRating: current,
-          readonly: readonly
+          readonly: readonly,
         });
       });
     }
@@ -3721,7 +3748,7 @@ $.dore = function (element, options) {
     if ($().tagsinput) {
       $(".tags").tagsinput({
         cancelConfirmKeysOnEmpty: true,
-        confirmKeys: [13]
+        confirmKeys: [13],
       });
 
       $("body").on("keypress", ".bootstrap-tagsinput input", function (e) {
@@ -3778,103 +3805,103 @@ $.dore = function (element, options) {
       {
         name: "May",
         index: 0,
-        id: "5a8a9bfd8bf389ba8d6bb211"
+        id: "5a8a9bfd8bf389ba8d6bb211",
       },
       {
         name: "Fuentes",
         index: 1,
-        id: "5a8a9bfdee10e107f28578d4"
+        id: "5a8a9bfdee10e107f28578d4",
       },
       {
         name: "Henderson",
         index: 2,
-        id: "5a8a9bfd4f9e224dfa0110f3"
+        id: "5a8a9bfd4f9e224dfa0110f3",
       },
       {
         name: "Hinton",
         index: 3,
-        id: "5a8a9bfde42b28e85df34630"
+        id: "5a8a9bfde42b28e85df34630",
       },
       {
         name: "Barrera",
         index: 4,
-        id: "5a8a9bfdc0cba3abc4532d8d"
+        id: "5a8a9bfdc0cba3abc4532d8d",
       },
       {
         name: "Therese",
         index: 5,
-        id: "5a8a9bfdedfcd1aa0f4c414e"
+        id: "5a8a9bfdedfcd1aa0f4c414e",
       },
       {
         name: "Nona",
         index: 6,
-        id: "5a8a9bfdd6686aa51b953c4e"
+        id: "5a8a9bfdd6686aa51b953c4e",
       },
       {
         name: "Frye",
         index: 7,
-        id: "5a8a9bfd352e2fd4c101507d"
+        id: "5a8a9bfd352e2fd4c101507d",
       },
       {
         name: "Cora",
         index: 8,
-        id: "5a8a9bfdb5133142047f2600"
+        id: "5a8a9bfdb5133142047f2600",
       },
       {
         name: "Miles",
         index: 9,
-        id: "5a8a9bfdadb1afd136117928"
+        id: "5a8a9bfdadb1afd136117928",
       },
       {
         name: "Cantrell",
         index: 10,
-        id: "5a8a9bfdca4795bcbb002057"
+        id: "5a8a9bfdca4795bcbb002057",
       },
       {
         name: "Benson",
         index: 11,
-        id: "5a8a9bfdaa51e9a4aeeddb7d"
+        id: "5a8a9bfdaa51e9a4aeeddb7d",
       },
       {
         name: "Susanna",
         index: 12,
-        id: "5a8a9bfd57dd857535ef5998"
+        id: "5a8a9bfd57dd857535ef5998",
       },
       {
         name: "Beatrice",
         index: 13,
-        id: "5a8a9bfd68b6f12828da4175"
+        id: "5a8a9bfd68b6f12828da4175",
       },
       {
         name: "Tameka",
         index: 14,
-        id: "5a8a9bfd2bc4a368244d5253"
+        id: "5a8a9bfd2bc4a368244d5253",
       },
       {
         name: "Lowe",
         index: 15,
-        id: "5a8a9bfd9004fda447204d30"
+        id: "5a8a9bfd9004fda447204d30",
       },
       {
         name: "Roth",
         index: 16,
-        id: "5a8a9bfdb4616dbc06af6172"
+        id: "5a8a9bfdb4616dbc06af6172",
       },
       {
         name: "Conley",
         index: 17,
-        id: "5a8a9bfdfae43320dd8f9c5a"
+        id: "5a8a9bfdfae43320dd8f9c5a",
       },
       {
         name: "Nelda",
         index: 18,
-        id: "5a8a9bfd534d9e0ba2d7c9a7"
+        id: "5a8a9bfd534d9e0ba2d7c9a7",
       },
       {
         name: "Angie",
         index: 19,
-        id: "5a8a9bfd57de84496dc42259"
-      }
+        id: "5a8a9bfd57de84496dc42259",
+      },
     ];
 
     if ($().typeahead) {
@@ -3952,7 +3979,7 @@ $.dore = function (element, options) {
         [{ font: [] }],
         [{ align: [] }],
 
-        ["clean"]
+        ["clean"],
       ];
 
       var quillBubbleToolbarOptions = [
@@ -3961,22 +3988,24 @@ $.dore = function (element, options) {
         [{ size: ["small", false, "large", "huge"] }],
         [{ color: [] }],
         [{ direction: direction }],
-        [{ align: [] }]
+        [{ align: [] }],
       ];
 
       var editor = new Quill("#quillEditor", {
         modules: { toolbar: quillToolbarOptions },
-        theme: "snow"
+        theme: "snow",
       });
 
       var editorBubble = new Quill("#quillEditorBubble", {
         modules: { toolbar: quillBubbleToolbarOptions },
-        theme: "bubble"
+        theme: "bubble",
       });
     }
 
     if (typeof ClassicEditor !== "undefined") {
-      ClassicEditor.create(document.querySelector("#ckEditorClassic")).catch(function (error) { });
+      ClassicEditor.create(document.querySelector("#ckEditorClassic")).catch(
+        function (error) {}
+      );
     }
 
     /* 03.33. Showing Body */
@@ -3991,17 +4020,13 @@ $.dore = function (element, options) {
       $("body > *").animate({ opacity: 1 }, 100);
     }, 300);
 
-
     /*03.34. Keyboard Shortcuts*/
     if (typeof Mousetrap !== "undefined") {
       //Go to next page on sub menu
       Mousetrap.bind(["ctrl+down", "command+down"], function (e) {
         var $nextItem = $(".sub-menu li.active").next();
         if ($nextItem.length == 0) {
-          $nextItem = $(".sub-menu li.active")
-            .parent()
-            .children()
-            .first();
+          $nextItem = $(".sub-menu li.active").parent().children().first();
         }
         window.location.href = $nextItem.find("a").attr("href");
         return false;
@@ -4011,10 +4036,7 @@ $.dore = function (element, options) {
       Mousetrap.bind(["ctrl+up", "command+up"], function (e) {
         var $prevItem = $(".sub-menu li.active").prev();
         if ($prevItem.length == 0) {
-          $prevItem = $(".sub-menu li.active")
-            .parent()
-            .children()
-            .last();
+          $prevItem = $(".sub-menu li.active").parent().children().last();
         }
         window.location.href = $prevItem.find("a").attr("href");
         return false;
@@ -4026,10 +4048,7 @@ $.dore = function (element, options) {
         if ($nextItem.length == 0) {
           $nextItem = $(".main-menu li:first-of-type");
         }
-        var $link = $nextItem
-          .find("a")
-          .attr("href")
-          .replace("#", "");
+        var $link = $nextItem.find("a").attr("href").replace("#", "");
         var $firstSubLink = $(
           ".sub-menu ul[data-link='" + $link + "'] li:first-of-type"
         );
@@ -4043,10 +4062,7 @@ $.dore = function (element, options) {
         if ($prevItem.length == 0) {
           $prevItem = $(".main-menu li:last-of-type");
         }
-        var $link = $prevItem
-          .find("a")
-          .attr("href")
-          .replace("#", "");
+        var $link = $prevItem.find("a").attr("href").replace("#", "");
         var $firstSubLink = $(
           ".sub-menu ul[data-link='" + $link + "'] li:first-of-type"
         );
@@ -4057,18 +4073,12 @@ $.dore = function (element, options) {
       /*Select all with ctrl+a and deselect all with ctrl+d at list pages */
       if ($(".list") && $(".list").length > 0) {
         Mousetrap.bind(["ctrl+a", "command+a"], function (e) {
-          $(".list")
-            .shiftSelectable()
-            .data("shiftSelectable")
-            .selectAll();
+          $(".list").shiftSelectable().data("shiftSelectable").selectAll();
           return false;
         });
 
         Mousetrap.bind(["ctrl+d", "command+d"], function (e) {
-          $(".list")
-            .shiftSelectable()
-            .data("shiftSelectable")
-            .deSelectAll();
+          $(".list").shiftSelectable().data("shiftSelectable").deSelectAll();
           return false;
         });
       }
@@ -4087,16 +4097,16 @@ $.dore = function (element, options) {
             if ($list && $list.length > 0) {
               $list.data("shiftSelectable").rightClick(options.$trigger);
             }
-          }
+          },
         },
         items: {
           copy: {
             name: "Copy",
-            className: "simple-icon-docs"
+            className: "simple-icon-docs",
           },
           archive: { name: "Move to archive", className: "simple-icon-drawer" },
-          delete: { name: "Delete", className: "simple-icon-trash" }
-        }
+          delete: { name: "Delete", className: "simple-icon-trash" },
+        },
       });
     }
 
@@ -4118,120 +4128,131 @@ $.dore = function (element, options) {
       event.preventDefault();
       $(".feedback-container").off("click", "a", onFeedbackClick);
       $(".feedback-container a").tooltip("dispose");
-      $(".feedback-container a").animate({
-        opacity: 0
-      }, 300, function () {
-        $(".feedback-container a").css("visibility", "hidden");
-      });
-      $(".feedback-container .feedback-answer").html($(event.currentTarget).data("message"));
+      $(".feedback-container a").animate(
+        {
+          opacity: 0,
+        },
+        300,
+        function () {
+          $(".feedback-container a").css("visibility", "hidden");
+        }
+      );
+      $(".feedback-container .feedback-answer").html(
+        $(event.currentTarget).data("message")
+      );
     }
-
 
     /* 03.38. Smart Wizard */
     if ($().smartWizard) {
-      $('#smartWizardDefault').smartWizard({
+      $("#smartWizardDefault").smartWizard({
         selected: 0,
-        theme: 'default',
-        transitionEffect: 'fade',
-        showStepURLhash: false
+        theme: "default",
+        transitionEffect: "fade",
+        showStepURLhash: false,
       });
 
-      $('#smartWizardDot').smartWizard({
+      $("#smartWizardDot").smartWizard({
         selected: 0,
-        theme: 'dots',
-        transitionEffect: 'fade',
-        showStepURLhash: false
+        theme: "dots",
+        transitionEffect: "fade",
+        showStepURLhash: false,
       });
 
-      $('#smartWizardCheck').smartWizard({
+      $("#smartWizardCheck").smartWizard({
         selected: 0,
-        theme: 'check',
-        transitionEffect: 'fade',
-        showStepURLhash: false
+        theme: "check",
+        transitionEffect: "fade",
+        showStepURLhash: false,
       });
 
-      $('#smartWizardClickable').smartWizard({
+      $("#smartWizardClickable").smartWizard({
         selected: 0,
-        theme: 'default',
-        transitionEffect: 'fade',
+        theme: "default",
+        transitionEffect: "fade",
         showStepURLhash: false,
         anchorSettings: {
-          enableAllAnchors: true
-        }
+          enableAllAnchors: true,
+        },
       });
 
       //Custom Buttons
-      $('#smartWizardCustomButtons').smartWizard({
+      $("#smartWizardCustomButtons").smartWizard({
         selected: 0,
-        theme: 'default',
-        transitionEffect: 'fade',
+        theme: "default",
+        transitionEffect: "fade",
         showStepURLhash: false,
         toolbarSettings: {
-          toolbarPosition: 'none'
-        }
+          toolbarPosition: "none",
+        },
       });
 
       $("#smartWizardCustomButtons .prev-btn").on("click", function () {
-        $('#smartWizardCustomButtons').smartWizard("prev");
+        $("#smartWizardCustomButtons").smartWizard("prev");
         return true;
       });
 
       $("#smartWizardCustomButtons .next-btn").on("click", function () {
-        $('#smartWizardCustomButtons').smartWizard("next");
+        $("#smartWizardCustomButtons").smartWizard("next");
         return true;
       });
 
       $("#smartWizardCustomButtons .reset-btn").on("click", function (event) {
-        $('#smartWizardCustomButtons').smartWizard("reset");
+        $("#smartWizardCustomButtons").smartWizard("reset");
         return true;
       });
 
       // Validation
-      $("#smartWizardValidation").on("showStep", function (e, anchorObject, stepNumber, stepDirection, stepPosition) {
-        if (stepPosition === 'first') {
-          $("#smartWizardValidation .prev-btn").addClass('disabled');
-          $("#smartWizardValidation .finish-btn").hide();
-          $("#smartWizardValidation .next-btn").show();
-        } else if (stepPosition === 'final') {
-          $("#smartWizardValidation .next-btn").hide();
-          $("#smartWizardValidation .finish-btn").show();
-          $("#smartWizardValidation .prev-btn").removeClass('disabled');
-        } else {
-          $("#smartWizardValidation .finish-btn").hide();
-          $("#smartWizardValidation .next-btn").show();
-          $("#smartWizardValidation .prev-btn").removeClass('disabled');
+      $("#smartWizardValidation").on(
+        "showStep",
+        function (e, anchorObject, stepNumber, stepDirection, stepPosition) {
+          if (stepPosition === "first") {
+            $("#smartWizardValidation .prev-btn").addClass("disabled");
+            $("#smartWizardValidation .finish-btn").hide();
+            $("#smartWizardValidation .next-btn").show();
+          } else if (stepPosition === "final") {
+            $("#smartWizardValidation .next-btn").hide();
+            $("#smartWizardValidation .finish-btn").show();
+            $("#smartWizardValidation .prev-btn").removeClass("disabled");
+          } else {
+            $("#smartWizardValidation .finish-btn").hide();
+            $("#smartWizardValidation .next-btn").show();
+            $("#smartWizardValidation .prev-btn").removeClass("disabled");
+          }
         }
-      });
+      );
 
-      $('#smartWizardValidation').smartWizard({
+      $("#smartWizardValidation").smartWizard({
         selected: 0,
-        theme: 'check',
-        transitionEffect: 'fade',
+        theme: "check",
+        transitionEffect: "fade",
         showStepURLhash: false,
         toolbarSettings: {
-          toolbarPosition: 'none'
-        }
+          toolbarPosition: "none",
+        },
       });
 
-      $("#smartWizardValidation").on("leaveStep", function (e, anchorObject, stepNumber, stepDirection) {
-        var elmForm = $("#form-step-" + stepNumber);
-        if (stepDirection === 'forward' && elmForm) {
-          return checkWizardValidation(elmForm);
+      $("#smartWizardValidation").on(
+        "leaveStep",
+        function (e, anchorObject, stepNumber, stepDirection) {
+          var elmForm = $("#form-step-" + stepNumber);
+          if (stepDirection === "forward" && elmForm) {
+            return checkWizardValidation(elmForm);
+          }
         }
-      });
+      );
 
       $("#smartWizardValidation .prev-btn").on("click", function () {
-        $('#smartWizardValidation').smartWizard("prev");
+        $("#smartWizardValidation").smartWizard("prev");
         return true;
       });
 
       $("#smartWizardValidation .next-btn").on("click", function () {
-        $('#smartWizardValidation').smartWizard("next");
+        $("#smartWizardValidation").smartWizard("next");
         return true;
       });
 
       $("#smartWizardValidation .finish-btn").on("click", function (event) {
-        if (checkWizardValidation($('#smartWizardValidation #form-step-1'))) {
+        if (checkWizardValidation($("#smartWizardValidation #form-step-1"))) {
           console.log("Form Done");
           return false;
         }
@@ -4253,33 +4274,35 @@ $.dore = function (element, options) {
 
     /* 03.39. Countdown */
     if (typeof Countdown !== "undefined") {
-      var dateToCount = new Date(new Date().setMinutes(new Date().getMinutes() + 5000));
+      var dateToCount = new Date(
+        new Date().setMinutes(new Date().getMinutes() + 5000)
+      );
       var countdown = new Countdown({
-        selector: '#timer',
+        selector: "#timer",
         leadingZeros: true,
         msgBefore: "",
         msgAfter: "",
-        msgPattern: ' <span class="timer-column"><p class="lead text-center">{days}</p><p>Days</p></span><span class="timer-column"><p class="lead text-center">{hours}</p><p>Hours</p></span><span class="timer-column"><p class="lead text-center">{minutes}</p><p>Minutes</p></span><span class="timer-column"><p class="lead text-center">{seconds}</p><p>Seconds</p></span>',
-        dateEnd: dateToCount
+        msgPattern:
+          ' <span class="timer-column"><p class="lead text-center">{days}</p><p>Days</p></span><span class="timer-column"><p class="lead text-center">{hours}</p><p>Hours</p></span><span class="timer-column"><p class="lead text-center">{minutes}</p><p>Minutes</p></span><span class="timer-column"><p class="lead text-center">{seconds}</p><p>Seconds</p></span>',
+        dateEnd: dateToCount,
       });
     }
 
     /* 03.40. Lightbox */
     if (typeof baguetteBox !== "undefined") {
-      baguetteBox.run('.gallery');
-      baguetteBox.run('.lightbox');
+      baguetteBox.run(".gallery");
+      baguetteBox.run(".lightbox");
     }
 
     /* 03.41. Ellipsis */
     if ($().ellipsis) {
       $(".ellipsis").ellipsis({
-        live: true
+        live: true,
       });
     }
 
     /* 03.42. Glide */
     if (typeof Glide !== "undefined") {
-
       // Details Images
       if ($(".glide.details").length > 0) {
         var glideThumbCountMax = 5;
@@ -4305,12 +4328,12 @@ $.dore = function (element, options) {
           direction: direction,
           breakpoints: {
             576: {
-              perView: Math.min(4, glideLength)
+              perView: Math.min(4, glideLength),
             },
             420: {
-              perView: Math.min(3, glideLength)
-            }
-          }
+              perView: Math.min(3, glideLength),
+            },
+          },
         });
 
         $(".glide.thumbs").css("width", perView * 70);
@@ -4364,15 +4387,15 @@ $.dore = function (element, options) {
           gap: 7,
           breakpoints: {
             1800: {
-              perView: 3
+              perView: 3,
             },
             576: {
-              perView: 2
+              perView: 2,
             },
             320: {
-              perView: 1
-            }
-          }
+              perView: 1,
+            },
+          },
         }).mount();
       }
 
@@ -4387,11 +4410,10 @@ $.dore = function (element, options) {
           breakpoints: {
             480: { perView: 1 },
             992: { perView: 2 },
-            1200: { perView: 1 }
+            1200: { perView: 1 },
           },
         }).mount();
       }
-
 
       if ($(".glide.basic").length > 0) {
         new Glide(".glide.basic", {
@@ -4402,7 +4424,7 @@ $.dore = function (element, options) {
           direction: direction,
           breakpoints: {
             600: { perView: 1 },
-            1000: { perView: 2 }
+            1000: { perView: 2 },
           },
         }).mount();
       }
@@ -4416,7 +4438,7 @@ $.dore = function (element, options) {
           peek: { before: 50, after: 50 },
           breakpoints: {
             600: { perView: 1 },
-            1000: { perView: 2 }
+            1000: { perView: 2 },
           },
         }).mount();
       }
@@ -4430,8 +4452,6 @@ $.dore = function (element, options) {
         }).mount();
       }
 
-
-
       if ($(".glide.gallery").length > 0) {
         var enableClick = true;
         var glideGallery = new Glide(".glide.gallery", {
@@ -4440,8 +4460,8 @@ $.dore = function (element, options) {
           perView: 1,
           type: "carousel",
           peek: { before: 100, after: 100 },
-          direction: direction
-        })
+          direction: direction,
+        });
 
         glideGallery.on(["swipe.move"], function () {
           enableClick = false;
@@ -4453,42 +4473,65 @@ $.dore = function (element, options) {
 
         glideGallery.mount();
 
-        $(".glide.gallery").get(0).addEventListener('click', function (event) {
-          if (!enableClick) {
-            event.stopPropagation();
-            event.preventDefault();
-            return false;
-          } else {
-            return true;
-          }
-        }, true);
-
+        $(".glide.gallery")
+          .get(0)
+          .addEventListener(
+            "click",
+            function (event) {
+              if (!enableClick) {
+                event.stopPropagation();
+                event.preventDefault();
+                return false;
+              } else {
+                return true;
+              }
+            },
+            true
+          );
       }
     }
 
     /* 03.43. Validation */
     // Bootstrap Validate
-    var forms = document.getElementsByClassName('needs-validation');
+    var forms = document.getElementsByClassName("needs-validation");
     var validation = Array.prototype.filter.call(forms, function (form) {
-      form.addEventListener('submit', function (event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        $(form).find(".custom-control input").parents(".form-group").each(function () {
-          $(this).find(".custom-control input").parents(".form-group").removeClass("is-invalid");
-          if ($(this).find(".custom-control input:invalid").length == $(this).find(".custom-control input").length) {
-            $(this).find(".custom-control input:invalid").parents(".form-group").addClass("is-invalid");
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
           }
-        });
-        form.classList.add('was-validated');
-      }, false);
+          $(form)
+            .find(".custom-control input")
+            .parents(".form-group")
+            .each(function () {
+              $(this)
+                .find(".custom-control input")
+                .parents(".form-group")
+                .removeClass("is-invalid");
+              if (
+                $(this).find(".custom-control input:invalid").length ==
+                $(this).find(".custom-control input").length
+              ) {
+                $(this)
+                  .find(".custom-control input:invalid")
+                  .parents(".form-group")
+                  .addClass("is-invalid");
+              }
+            });
+          form.classList.add("was-validated");
+        },
+        false
+      );
 
-      $(form).find("input").each(function () {
-        $(this).on("change", function () {
-          $(this).parents(".form-group").removeClass("is-invalid");
+      $(form)
+        .find("input")
+        .each(function () {
+          $(this).on("change", function () {
+            $(this).parents(".form-group").removeClass("is-invalid");
+          });
         });
-      });
     });
 
     // jQuery Validate
@@ -4505,7 +4548,7 @@ $.dore = function (element, options) {
           } else {
             error.insertAfter(element);
           }
-        }
+        },
       });
 
       $("#exampleForm").validate();
@@ -4518,21 +4561,21 @@ $.dore = function (element, options) {
         rules: {
           rulesName: {
             required: true,
-            lettersonly: true
+            lettersonly: true,
           },
           rulesEmail: {
             required: true,
-            email: true
+            email: true,
           },
           rulesId: {
             required: true,
             minlength: 8,
             maxlength: 8,
-            number: true
+            number: true,
           },
           rulesDetail: {
             required: true,
-            maxlength: 20
+            maxlength: 20,
           },
           rulesPassword: {
             required: true,
@@ -4541,7 +4584,7 @@ $.dore = function (element, options) {
           rulesPasswordConfirm: {
             required: true,
             minlength: 6,
-            equalTo: "#rulesPassword"
+            equalTo: "#rulesPassword",
           },
           rulesCreditCard: {
             creditcard: true,
@@ -4551,39 +4594,39 @@ $.dore = function (element, options) {
           rulesAge: {
             number: true,
             min: 18,
-            required: true
-          }
+            required: true,
+          },
         },
         messages: {
           rulesName: {
-            lettersonly: "Only letters are accepted!"
+            lettersonly: "Only letters are accepted!",
           },
           rulesEmail: {
-            email: "Your email address must be in correct format!"
+            email: "Your email address must be in correct format!",
           },
           rulesId: {
             number: "Must be a number!",
             minlength: "Id must be {0} characters!",
-            maxlength: "Id must be {0} characters!"
+            maxlength: "Id must be {0} characters!",
           },
           rulesPassword: {
-            minlength: "Password must be at least {0} characters!"
+            minlength: "Password must be at least {0} characters!",
           },
           rulesPasswordConfirm: {
             equalTo: "Passwords must match!",
-            minlength: "Password must be at least {0} characters!"
+            minlength: "Password must be at least {0} characters!",
           },
           rulesDetail: {
-            maxlength: "Details must be maximum {0} characters!"
+            maxlength: "Details must be maximum {0} characters!",
           },
           rulesCreditCard: {
             creditcard: "Must be a valid credit card number!",
-            nowhitespace: "Must not contain whitespace!"
-          }
-        }
+            nowhitespace: "Must not contain whitespace!",
+          },
+        },
       });
 
-      $('select, .tags-input, .datepicker').on('change', function () {
+      $("select, .tags-input, .datepicker").on("change", function () {
         $(this).valid();
       });
     }

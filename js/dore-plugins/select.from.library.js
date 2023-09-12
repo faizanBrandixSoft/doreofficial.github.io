@@ -3,7 +3,7 @@ Plugin : Select Image From Library
 Version : 0.0.1
 Description : Select from a modal which contains list of media items.
 */
-$.selectFromLibrary = function(element, options) {
+$.selectFromLibrary = function (element, options) {
   var plugin = this;
   var defaults = {
     // Sets how many items can be selected from library. Set to -1 disable selection limit.
@@ -31,7 +31,7 @@ $.selectFromLibrary = function(element, options) {
     selectedItemLabelClass: ".sfl-selected-item-label",
 
     // Selected item delete class
-    selectedItemDeleteClass: ".sfl-delete-item"
+    selectedItemDeleteClass: ".sfl-delete-item",
   };
   var $self = $(element);
   plugin.settings = $.extend({}, defaults, options, $self.data());
@@ -63,10 +63,10 @@ $.selectFromLibrary = function(element, options) {
       plugin.settings.itemContainerClass + " .custom-control-input",
       checkChange
     );
-    $modal.on('hidden.bs.modal', onModalHide);
+    $modal.on("hidden.bs.modal", onModalHide);
   }
 
-  $self.on("click", function(event) {
+  $self.on("click", function (event) {
     event.preventDefault();
     init();
   });
@@ -75,7 +75,7 @@ $.selectFromLibrary = function(element, options) {
     $checkedItems = $(
       plugin.settings.itemContainerClass + " .custom-control-input:checked"
     ).parents(plugin.settings.itemContainerClass);
-    if(plugin.settings.count == 1) {
+    if (plugin.settings.count == 1) {
       onSubmitHandler(null);
       hideSelectButton();
       return;
@@ -98,17 +98,30 @@ $.selectFromLibrary = function(element, options) {
     var $emptyParent;
     var $itemTemp;
     var $grandParent = $self.parent().parent();
-    for(var i = 0; i<selectedItems.length; i++) {
+    for (var i = 0; i < selectedItems.length; i++) {
       $emptyParent = $self.parent().clone().empty();
-      $itemTemp = $self.parent().find(plugin.settings.selectedItemClass).clone();
-      $itemTemp.find(plugin.settings.selectedItemImageClass).attr("src", selectedItems[i].previewPath);
-      $itemTemp.find(plugin.settings.selectedItemLabelClass).html(selectedItems[i].label);
+      $itemTemp = $self
+        .parent()
+        .find(plugin.settings.selectedItemClass)
+        .clone();
+      $itemTemp
+        .find(plugin.settings.selectedItemImageClass)
+        .attr("src", selectedItems[i].previewPath);
+      $itemTemp
+        .find(plugin.settings.selectedItemLabelClass)
+        .html(selectedItems[i].label);
       $itemTemp.css("display", "block");
-      $itemTemp.addClass(plugin.settings.selectedItemClassActive.replace(".", ""));
+      $itemTemp.addClass(
+        plugin.settings.selectedItemClassActive.replace(".", "")
+      );
       $emptyParent.append($itemTemp);
       $grandParent.prepend($emptyParent);
-      $itemTemp.on("click", plugin.settings.selectedItemDeleteClass, onDeleteClick);
-      for(var prop in selectedItems[i]) {
+      $itemTemp.on(
+        "click",
+        plugin.settings.selectedItemDeleteClass,
+        onDeleteClick
+      );
+      for (var prop in selectedItems[i]) {
         $itemTemp.data(prop, selectedItems[i][prop]);
       }
     }
@@ -116,11 +129,13 @@ $.selectFromLibrary = function(element, options) {
 
   function onDeleteClick(event) {
     event.preventDefault();
-    $(this).parents(plugin.settings.selectedItemClass).off("click", plugin.settings.selectedItemDeleteClass, onDeleteClick);
+    $(this)
+      .parents(plugin.settings.selectedItemClass)
+      .off("click", plugin.settings.selectedItemDeleteClass, onDeleteClick);
     $(this).parents(plugin.settings.selectedItemClass).parent().remove();
     updateSelectedItemsByDom();
-    if(plugin.settings.count == 1) {
-      showSelectButton()
+    if (plugin.settings.count == 1) {
+      showSelectButton();
     }
   }
 
@@ -132,10 +147,10 @@ $.selectFromLibrary = function(element, options) {
 
   function getDataFromDomItems($items) {
     selectedItems = [];
-    if(!$items) {
+    if (!$items) {
       return;
     }
-    $items.each(function() {
+    $items.each(function () {
       selectedItems.push($(this).data());
     });
   }
@@ -148,33 +163,25 @@ $.selectFromLibrary = function(element, options) {
       plugin.settings.itemContainerClass + " .custom-control-input",
       checkChange
     );
-    $modal.off('hidden.bs.modal', onModalHide);
+    $modal.off("hidden.bs.modal", onModalHide);
   }
 
   function hideCheckboxes() {
-    $itemContaines.each(function() {
-      $(this)
-        .find(".custom-checkbox")
-        .css("visibility", "hidden");
+    $itemContaines.each(function () {
+      $(this).find(".custom-checkbox").css("visibility", "hidden");
     });
   }
 
   function showCheckboxes() {
-    $itemContaines.each(function() {
-      $(this)
-        .find(".custom-checkbox")
-        .css("visibility", "visible");
+    $itemContaines.each(function () {
+      $(this).find(".custom-checkbox").css("visibility", "visible");
     });
   }
 
   function clearAllSelections() {
-    $itemContaines.each(function() {
-      $(this)
-        .find(".custom-control-input")
-        .prop("checked", false);
-      $(this)
-        .find(".active")
-        .removeClass("active");
+    $itemContaines.each(function () {
+      $(this).find(".custom-control-input").prop("checked", false);
+      $(this).find(".active").removeClass("active");
     });
   }
 
@@ -186,14 +193,13 @@ $.selectFromLibrary = function(element, options) {
     $self.css("visibility", "visible");
   }
 
-  plugin.getData = function() {
+  plugin.getData = function () {
     return selectedItems || [];
-  }
-
+  };
 };
 
-$.fn.selectFromLibrary = function(options) {
-  return this.each(function() {
+$.fn.selectFromLibrary = function (options) {
+  return this.each(function () {
     if (undefined == $(this).data("selectFromLibrary")) {
       var plugin = new $.selectFromLibrary(this, options);
       $(this).data("selectFromLibrary", plugin);
